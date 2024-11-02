@@ -5,9 +5,10 @@
   "repository": "https://github.com/duanyll/tikzjax-preview",
   "author": "duanyll",
   "license": "MIT",
+  "source": "index.html",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html --public-url ./ --no-source-maps "
+    "start": "parcel",
+    "build": "parcel build --no-optimize"
   },
   "dependencies": {
     "monaco-editor": "^0.52.0",
