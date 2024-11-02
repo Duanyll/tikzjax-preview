@@ -1,5 +1,12 @@
 import * as monaco from 'monaco-editor';
 
+import lang_monarch from './lang_monarch.json';
+import latex_monarch from './latex_monarch.json';
+
+monaco.languages.register({ id: 'latex' });
+monaco.languages.setMonarchTokensProvider('latex', latex_monarch);
+monaco.languages.setLanguageConfiguration('latex', lang_monarch);
+
 // 初始化 LaTeX 代码编辑器
 const editor = monaco.editor.create(document.getElementById('editor'), {
     value: 
@@ -60,6 +67,22 @@ editor.onDidChangeModelContent(() => {
 // 处理按钮点击事件
 document.getElementById('update-button').addEventListener('click', () => {
     updateOutput();
+});
+
+document.getElementById('save-button').addEventListener('click', () => {
+    const svg = document.getElementById('svg-container').querySelector('svg');
+    if (svg) {
+        const svgData = new XMLSerializer().serializeToString(svg);
+        const blob = new Blob([svgData], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'output.svg';
+        a.click();
+        URL.revokeObjectURL(url);
+    } else {
+        alert('No output to save!');
+    }
 });
 
 // 初始更新
